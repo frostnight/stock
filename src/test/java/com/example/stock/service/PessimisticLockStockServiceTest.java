@@ -16,10 +16,10 @@ import com.example.stock.domain.Stock;
 import com.example.stock.repository.StockRepository;
 
 @SpringBootTest
-public class StockServiceTest {
+public class PessimisticLockStockServiceTest {
 
 	@Autowired
-	private StockService stockService;
+	private PessimisticLockStockService stockService;
 
 	@Autowired
 	private StockRepository stockRepository;

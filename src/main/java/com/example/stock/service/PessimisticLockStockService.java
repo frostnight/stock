@@ -2,26 +2,24 @@ package com.example.stock.service;
 
 import javax.transaction.Transactional;
 
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.stereotype.Service;
 
 import com.example.stock.domain.Stock;
 import com.example.stock.repository.StockRepository;
 
 @Service
-public class StockService {
+public class PessimisticLockStockService {
 
 	private StockRepository stockRepository;
 
-	public StockService(StockRepository stockRepository){
+	public PessimisticLockStockService(StockRepository stockRepository){
 		this.stockRepository = stockRepository;
 	}
 
-	// @Transactional
-	public synchronized void decrease(Long id, Long quantity){
-		// get stock
-		// 재고감소
-		// 저장
-		Stock stock = stockRepository.findById(id).orElseThrow();
+	@Transactional
+	public void decrease(Long id, Long quantity){
+		Stock stock = stockRepository.findByIdWithPessimisticLock(id);
 
 		stock.decrease(quantity);
 

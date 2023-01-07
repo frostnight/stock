@@ -8,21 +8,17 @@ import com.example.stock.domain.Stock;
 import com.example.stock.repository.StockRepository;
 
 @Service
-public class StockService {
+public class OptimisticLockStockService {
 
-	private StockRepository stockRepository;
+	private final StockRepository stockRepository;
 
-	public StockService(StockRepository stockRepository){
+	public OptimisticLockStockService(StockRepository stockRepository){
 		this.stockRepository = stockRepository;
 	}
 
-	// @Transactional
-	public synchronized void decrease(Long id, Long quantity){
-		// get stock
-		// 재고감소
-		// 저장
-		Stock stock = stockRepository.findById(id).orElseThrow();
-
+	@Transactional
+	public void decrease(Long id, Long quantity){
+		Stock stock = stockRepository.findByIdWithOptimisticLock(id);
 		stock.decrease(quantity);
 
 		stockRepository.saveAndFlush(stock);
