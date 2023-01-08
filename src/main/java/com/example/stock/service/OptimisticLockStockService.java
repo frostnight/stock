@@ -1,8 +1,8 @@
 package com.example.stock.service;
 
-import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.stock.domain.Stock;
 import com.example.stock.repository.StockRepository;

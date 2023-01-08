@@ -1,8 +1,8 @@
 package com.example.stock.service;
 
-import javax.transaction.Transactional;
-
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.stock.domain.Stock;
 import com.example.stock.repository.StockRepository;
@@ -16,11 +16,8 @@ public class StockService {
 		this.stockRepository = stockRepository;
 	}
 
-	// @Transactional
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public synchronized void decrease(Long id, Long quantity){
-		// get stock
-		// 재고감소
-		// 저장
 		Stock stock = stockRepository.findById(id).orElseThrow();
 
 		stock.decrease(quantity);
